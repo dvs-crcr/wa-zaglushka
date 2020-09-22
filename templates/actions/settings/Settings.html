@@ -1,0 +1,74 @@
+<link type="text/css" rel="stylesheet" href="{$wa_url}wa-content/js/redactor/redactor.css">
+<script src="{$wa_url}wa-content/js/redactor/redactor.min.js"></script>
+<script src="{$wa_url}wa-content/js/redactor/ru.js"></script>
+<style>
+	.fields {
+	    float: none;
+	}
+</style>
+<script type="text/javascript">
+$(function(){
+    $('#content').redactor({
+    	focus: true,
+    	lang: 'ru',
+    	plugins: ['fontcolor', 'fontsize', 'fontfamily', 'table']
+    });
+});
+</script>
+
+{if isset($settings.cstate)}
+	{$scs=$settings.cstate}
+{else}
+	{$scs=0}
+{/if}
+
+{if isset($settings.foradmin)}
+	{$frs=$settings.foradmin}
+{else}
+	{$frs=0}
+{/if}
+
+{if isset($settings.text)}
+	{$dft = $settings.text}
+{else}
+	{$dft = '<h1 style="text-align: center;">Технические работы</h1><p style="text-align: center;">Сейчас на сайте проводятся технические работы. Пожалуйста, зайдите позже.</p>'}
+{/if}
+
+<h1>Заглушка для магазина</h1>
+<div class="fields form">
+    <form action="?module=plugins&id=zaglushka&action=save" method="post" id="plugins-settings-form">
+	    {$wa->csrf()}
+	    <div class="field">
+	        <div class="name">
+	            Статус заглушки
+	        </div>
+	        <div class="value">
+	        	<label><input type="radio" name="shop_zaglushka[cstate]" value="0" {if $scs==0}checked="checked"{/if} />выкл</label>
+				<label><input type="radio" name="shop_zaglushka[cstate]" value="1" {if $scs==1}checked="checked"{/if}/>вкл</label>
+	        </div>
+	    </div>
+	    
+	    <div class="field">
+	        <div class="name">
+	           Закрыто для администраторов
+	        </div>
+	        <div class="value">
+	       		<label><input type="radio" name="shop_zaglushka[foradmin]" value="0" {if $frs==0}checked="checked"{/if} />выкл</label>
+				<label><input type="radio" name="shop_zaglushka[foradmin]" value="1" {if $frs=1}checked="checked"{/if}/>вкл</label>
+	        </div>
+	    </div>
+	    
+	    <div class="field" style="border: 1px solid #dadada;">
+	        <textarea id="content" name="shop_zaglushka[text]">{$dft|escape}</textarea>
+	    </div>
+
+		<div class="field" style="padding: 10px 0px;font-size: 13px;color: #929292;">
+			Шаблон «Заглушки» находится в файле <b>/wa-apps/shop/plugins/zaglushka/templates/zaglushka.html</b>
+		</div>
+
+	    <div class="field">
+            <input type="submit" class="button green" value="[s`Save`]">
+            <span id="plugins-settings-form-status" style="display:none"></span>
+	    </div>
+    </form>
+</div>  
